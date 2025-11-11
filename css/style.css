@@ -1,0 +1,549 @@
+/* ========================================
+   SUPPER CLUBS HYDERABAD - STYLES
+   Mobile-first responsive design
+======================================== */
+
+/* ========================================
+   1. CSS RESET & BASE STYLES
+======================================== */
+/* Universal reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base document styles */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+/* Make images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   2. TYPOGRAPHY
+======================================== */
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #1a1a1a;
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: #2d2d2d;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+h4 {
+  font-size: 1.125rem;
+  color: #444;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-position: inside;
+  margin-bottom: 1rem;
+}
+
+/* ========================================
+   3. LAYOUT COMPONENTS
+======================================== */
+
+/* Container - keeps content from edge-to-edge on large screens */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Section spacing */
+section {
+  margin-bottom: 3rem;
+}
+
+/* Card pattern - used for event cards */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Flex utilities */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ========================================
+   4. HERO GALLERY
+======================================== */
+
+/* ========================================
+   5. CLUB HEADER
+======================================== */
+
+.club-header {
+  background: white;
+  padding: 1.5rem 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.club-name {
+  margin-bottom: 0.75rem;
+}
+
+.club-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.rating,
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.star-icon,
+.location-icon {
+  font-size: 1.1rem;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.review-count {
+  color: #888;
+}
+
+/* ========================================
+   6. EVENTS SECTION
+======================================== */
+
+.events-section {
+  padding: 0 1rem;
+}
+
+.events-section > h2 {
+  margin-bottom: 1.5rem;
+  padding-left: 0;
+}
+
+.event-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+/* Event Gallery */
+.event-gallery {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.event-gallery img {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Event Details */
+.event-details {
+  padding: 1.5rem;
+}
+
+.event-date {
+  color: #667eea;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-cuisine {
+  font-size: 1.125rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Event Menu */
+.event-menu {
+  margin-bottom: 1.5rem;
+}
+
+.event-menu h4 {
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.event-menu ul {
+  padding-left: 1.25rem;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.event-menu li {
+  color: #555;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Price & Seats */
+.event-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.seats {
+  font-size: 0.9rem;
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+/* Event Tags */
+.event-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background: #edf2f7;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+/* Special Activities */
+.special-activities {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.special-activities h4 {
+  color: #667eea;
+  margin-bottom: 0.75rem;
+}
+
+.special-activities ul {
+  padding-left: 1.25rem;
+  list-style-position: outside;
+}
+
+.special-activities li {
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   7. HOST SECTION
+======================================== */
+
+.host-section {
+  background: white;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  margin: 0 1rem 2rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.host-section > h2 {
+  margin-bottom: 1.5rem;
+}
+
+.host-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.host-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #667eea;
+}
+
+.host-info {
+  text-align: center;
+}
+
+.host-name {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.host-bio {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+/* ========================================
+   8. CONTACT SECTION
+======================================== */
+
+.contact-section {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+}
+
+.contact-section h2 {
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.contact-button {
+  display: inline-block;
+  background: white;
+  color: #667eea;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+/* ========================================
+   9. MEDIA QUERIES - TABLET (768px+)
+======================================== */
+
+@media (min-width: 768px) {
+  /* Typography scales up */
+  html {
+    font-size: 18px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  /* Gallery shows 2 images at a time */
+
+  .events-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .events-section > h2 {
+    grid-column: 1 / -1;
+  }
+
+  .event-card {
+    margin-bottom: 0;
+  }
+
+  .event-gallery img {
+    flex: 0 0 50%;
+    height: 300px;
+  }
+
+  /* Club header side-by-side layout */
+  .club-meta {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  /* Event card gets 2-column layout */
+  .event-details {
+    padding: 2rem;
+  }
+
+  /* Host section horizontal layout */
+  .host-content {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .host-photo {
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+  }
+
+  .host-info {
+    text-align: left;
+  }
+
+  /* Contact button larger */
+  .contact-button {
+    font-size: 1.25rem;
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+/* ========================================
+   10. MEDIA QUERIES - DESKTOP (1024px+)
+======================================== */
+
+@media (min-width: 1024px) {
+  /* Larger base font */
+  html {
+    font-size: 18px;
+  }
+
+  /* Container constrains width on large screens */
+  body {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* EVENTS GRID - Multiple cards per row */
+  .events-section {
+    padding: 0 2rem;
+  }
+
+  .events-section > h2 {
+    grid-column: 1 / -1; /* Heading spans full width */
+  }
+
+  /* Create grid for event cards */
+  .events-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  /* Each event card stays vertical but more compact */
+  .event-card {
+    margin-bottom: 0; /* Remove margin, grid gap handles spacing */
+  }
+
+  .event-gallery img {
+    flex: 0 0 100%; /* Back to full width within smaller card */
+    height: 200px; /* Shorter for compact cards */
+  }
+
+  .event-details {
+    padding: 1.5rem;
+  }
+
+  .event-date {
+    font-size: 1.125rem;
+  }
+
+  .event-cuisine {
+    font-size: 1rem;
+  }
+
+  /* Menu more compact */
+  .event-menu ul {
+    font-size: 0.9rem;
+  }
+
+  .event-menu li {
+    margin-bottom: 0.35rem;
+  }
+
+  /* Host section better spacing */
+  .host-content {
+    gap: 3rem;
+  }
+
+  .host-photo {
+    width: 180px;
+    height: 180px;
+  }
+
+  .host-section {
+    margin: 0 2rem 2rem 2rem;
+    padding: 3rem;
+  }
+
+  /* Hover effects for desktop */
+  .event-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .tag {
+    transition: background-color 0.2s ease;
+  }
+
+  .tag:hover {
+    background-color: #e2e8f0;
+  }
+}
