@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
   renderHostSection();
   renderEvents();
   renderContactSection();
+  // Initialize galleries AFTER events are rendered
+  initializeGalleries(); // ← Add this line
 });
 
 // ========================================
@@ -101,15 +103,38 @@ function createEventCard(event) {
 
   article.innerHTML = `
     <!-- Event Photos -->
-    <div class="event-gallery">
-      ${event.photos
-        .map(
-          (photo) => `
-        <img src="${photo}" alt="${event.cuisine} dish photo">
-      `
-        )
-        .join("")}
-    </div>
+<div class="event-gallery" data-current-index="0" data-event-id="${event.id}">
+  <div class="gallery-images">
+    ${event.photos
+      .map(
+        (photo) => `
+      <img src="${photo}" alt="${event.cuisine} dish photo">
+    `
+      )
+      .join("")}
+  </div>
+  
+  <!-- Navigation Arrows -->
+  <button class="gallery-arrow gallery-arrow-prev" aria-label="Previous image">
+    ‹
+  </button>
+  <button class="gallery-arrow gallery-arrow-next" aria-label="Next image">
+    ›
+  </button>
+  
+  <!-- Pagination Dots -->
+  <div class="gallery-dots">
+    ${event.photos
+      .map(
+        (_, index) => `
+      <button class="gallery-dot ${
+        index === 0 ? "active" : ""
+      }" data-index="${index}" aria-label="Go to image ${index + 1}"></button>
+    `
+      )
+      .join("")}
+  </div>
+</div>
     
     <!-- Event Details -->
     <div class="event-details">
@@ -166,6 +191,79 @@ function createEventCard(event) {
   `;
 
   return article;
+}
+
+// ========================================
+// INITIALIZE GALLERY NAVIGATION
+// ========================================
+function initializeGalleries() {
+  // Get all galleries on the page
+  const galleries = document.querySelectorAll(".event-gallery");
+
+  galleries.forEach((gallery) => {
+    const images = gallery.querySelector(".gallery-images");
+    const dots = gallery.querySelectorAll(".gallery-dot");
+    const prevButton = gallery.querySelector(".gallery-arrow-prev");
+    const nextButton = gallery.querySelector(".gallery-arrow-next");
+    const totalImages = dots.length;
+
+    // Get current index from data attribute
+    const getCurrentIndex = () => parseInt(gallery.dataset.currentIndex);
+
+    // Set current index to data attribute
+    const setCurrentIndex = (index) => {
+      gallery.dataset.currentIndex = index;
+    };
+
+    // Navigate to specific image
+    const goToImage = (index) => {
+      // Wrap around if out of bounds
+      if (index < 0) index = totalImages - 1;
+      if (index >= totalImages) index = 0;
+
+      // Update state
+      setCurrentIndex(index);
+
+      // Scroll to image
+      const imageWidth = images.querySelector("img").offsetWidth;
+      images.scrollLeft = imageWidth * index;
+
+      // Update dots
+      updateDots(index);
+    };
+
+    // Update active dot
+    const updateDots = (activeIndex) => {
+      dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+    };
+
+    // Previous button click
+    prevButton.addEventListener("click", () => {
+      const currentIndex = getCurrentIndex();
+      goToImage(currentIndex - 1);
+    });
+
+    // Next button click
+    nextButton.addEventListener("click", () => {
+      const currentIndex = getCurrentIndex();
+      goToImage(currentIndex + 1);
+    });
+
+    // Dot click
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        goToImage(index);
+      });
+    });
+
+    console.log(`✅ Gallery initialized for event ${gallery.dataset.eventId}`);
+  });
 }
 
 // ========================================

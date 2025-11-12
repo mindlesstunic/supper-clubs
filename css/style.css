@@ -303,6 +303,90 @@ section {
   margin-bottom: 0.5rem;
 }
 
+/* Gallery Container - Position relative for absolute children */
+.event-gallery {
+  position: relative;
+}
+
+/* Gallery Images Container */
+.gallery-images {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.gallery-images img {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Navigation Arrows */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+.gallery-arrow:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.gallery-arrow-prev {
+  left: 10px;
+}
+
+.gallery-arrow-next {
+  right: 10px;
+}
+
+/* Pagination Dots */
+.gallery-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.gallery-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.gallery-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.gallery-dot.active {
+  background: white;
+}
+
 /* ========================================
    7. HOST SECTION
 ======================================== */
