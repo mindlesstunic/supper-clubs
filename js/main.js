@@ -12,7 +12,11 @@ document.addEventListener("DOMContentLoaded", function () {
   renderEvents();
   renderContactSection();
   // Initialize galleries AFTER events are rendered
-  initializeGalleries(); // ← Add this line
+  initializeGalleries();
+
+  // Initialize modal
+  initializeContactModal();
+  initializeInquiryForm();
 });
 
 // ========================================
@@ -282,4 +286,118 @@ function renderContactSection() {
   contactButton.innerHTML = `📞 Call / WhatsApp: ${contact.phone}`;
 
   console.log("Contact esction rendered!");
+}
+
+// ========================================
+// CONTACT MODAL FUNCTIONALITY
+// ========================================
+function initializeContactModal() {
+  const modal = document.getElementById("contactModal");
+  const openButton = document.querySelector(".contact-button");
+  const closeButton = document.querySelector(".modal-close");
+  const modalContent = document.querySelector(".modal-content");
+
+  // Populate modal with host data
+  populateModalData();
+
+  // Open modal
+  openButton.addEventListener("click", () => {
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden"; // Prevent background scrolling
+  });
+
+  // Close modal - X button
+  closeButton.addEventListener("click", () => {
+    closeModal();
+  });
+
+  // Close modal - Click outside (on overlay)
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Close modal - ESC key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      closeModal();
+    }
+  });
+
+  // Prevent closing when clicking inside modal content
+  modalContent.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // Close modal function
+  function closeModal() {
+    modal.classList.remove("active");
+    document.body.style.overflow = ""; // Restore scrolling
+  }
+
+  console.log("✅ Contact modal initialized!");
+}
+
+// ========================================
+// POPULATE MODAL WITH HOST DATA
+// ========================================
+function populateModalData() {
+  const host = supperClubData.host;
+  const contact = supperClubData.club.contact;
+
+  // Host photo and name
+  document.querySelector(".modal-host-photo").src = host.photo;
+  document.querySelector(".modal-host-photo").alt = `${host.name} - Host`;
+  document.querySelector(".modal-host-name").textContent = host.name;
+
+  // Phone numbers in contact options
+  const phoneElements = document.querySelectorAll(".contact-phone");
+  phoneElements.forEach((el) => {
+    el.textContent = contact.phone;
+  });
+
+  // Call link
+  document.querySelector(".contact-call").href = `tel:${contact.phone}`;
+
+  // WhatsApp link
+  const whatsappNumber = contact.phone.replace(/\D/g, ""); // Remove non-digits
+  document.querySelector(
+    ".contact-whatsapp"
+  ).href = `https://wa.me/${whatsappNumber}`;
+
+  console.log("✅ Modal data populated!");
+}
+
+// ========================================
+// HANDLE INQUIRY FORM SUBMISSION
+// ========================================
+function initializeInquiryForm() {
+  const form = document.getElementById("inquiryForm");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent page reload
+
+    // Get form values
+    const formData = new FormData(form);
+    const name = form.querySelector('input[type="text"]').value;
+    const email = form.querySelector('input[type="email"]').value;
+    const message = form.querySelector("textarea").value;
+
+    console.log("📧 Form submitted:", { name, email, message });
+
+    // Show success message (for now, just alert - in V3 we'll send to backend)
+    alert(
+      `Thank you, ${name}! Your inquiry has been sent to ${supperClubData.host.name}. They will contact you at ${email} soon!`
+    );
+
+    // Reset form
+    form.reset();
+
+    // Close modal
+    document.getElementById("contactModal").classList.remove("active");
+    document.body.style.overflow = "";
+  });
+
+  console.log("✅ Inquiry form initialized!");
 }

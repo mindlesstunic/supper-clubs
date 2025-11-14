@@ -631,3 +631,214 @@ section {
     background-color: #e2e8f0;
   }
 }
+/* ========================================
+   11. CONTACT MODAL
+======================================== */
+
+/* Modal Overlay - Full screen dark background */
+.modal-overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Show modal when active class is added */
+.modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal Content Box */
+.modal-content {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #667eea;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #f7fafc;
+  color: #333;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Host Info in Modal */
+.modal-host-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-host-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #667eea;
+}
+
+.modal-host-name {
+  margin: 0;
+  color: #2d3748;
+}
+
+/* Contact Options */
+.contact-options {
+  margin-bottom: 2rem;
+}
+
+.contact-options h4 {
+  margin-bottom: 1rem;
+  color: #4a5568;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contact-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #2d3748;
+  margin-bottom: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.contact-option:hover {
+  background: #edf2f7;
+  transform: translateX(4px);
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contact-details strong {
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.contact-phone {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+/* Inquiry Form */
+.inquiry-form h4 {
+  margin-bottom: 1rem;
+  color: #4a5568;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.form-input::placeholder {
+  color: #a0aec0;
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}

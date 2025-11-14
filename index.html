@@ -43,11 +43,80 @@
     </section>
 
     <!-- Contact Section -->
-    <section class="contact-section">
-      <h2>Interested? Contact the Host</h2>
-      <a href="" class="contact-button"></a>
-    </section>
-    <script src="js/data.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+  <section class="contact-section">
+    <h2>Interested? Contact the Host</h2>
+    <button class="contact-button">📞 Contact Host</button>
+    <!-- Changed from <a> to <button> -->
+  </section>
+
+  <!-- Contact Modal (hidden by default) -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h3>Contact Host</h3>
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Host Info -->
+        <div class="modal-host-info">
+          <img src="" alt="" class="modal-host-photo">
+          <h4 class="modal-host-name"></h4>
+        </div>
+        
+        <!-- Contact Options -->
+        <div class="contact-options">
+          <h4>Quick Contact</h4>
+          
+          <a href="" class="contact-option contact-call">
+            <span class="contact-icon">📞</span>
+            <div class="contact-details">
+              <strong>Call Now</strong>
+              <span class="contact-phone"></span>
+            </div>
+          </a>
+          
+          <a href="" class="contact-option contact-whatsapp">
+            <span class="contact-icon">💬</span>
+            <div class="contact-details">
+              <strong>WhatsApp</strong>
+              <span class="contact-phone"></span>
+            </div>
+          </a>
+        </div>
+        
+        <!-- Inquiry Form -->
+        <div class="inquiry-form">
+          <h4>Send Inquiry</h4>
+          <form id="inquiryForm">
+            <input 
+              type="text" 
+              placeholder="Your Name" 
+              required
+              class="form-input"
+            >
+            <input 
+              type="email" 
+              placeholder="Your Email" 
+              required
+              class="form-input"
+            >
+            <textarea 
+              placeholder="Your message to the host..." 
+              rows="4"
+              required
+              class="form-input"
+            ></textarea>
+            <button type="submit" class="btn-submit">Send Inquiry</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
 </html>
