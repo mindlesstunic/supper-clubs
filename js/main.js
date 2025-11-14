@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize modal
   initializeContactModal();
   initializeInquiryForm();
+  initializeLightbox();
 });
 
 // ========================================
@@ -400,4 +401,146 @@ function initializeInquiryForm() {
   });
 
   console.log("✅ Inquiry form initialized!");
+}
+// ========================================
+// IMAGE LIGHTBOX FUNCTIONALITY
+// ========================================
+function initializeLightbox() {
+  const lightbox = document.getElementById("imageLightbox");
+  const lightboxImage = document.querySelector(".lightbox-image");
+  const lightboxCounter = document.querySelector(".lightbox-counter");
+  const lightboxDotsContainer = document.querySelector(".lightbox-dots");
+  const closeButton = document.querySelector(".lightbox-close");
+  const prevButton = document.querySelector(".lightbox-arrow-prev");
+  const nextButton = document.querySelector(".lightbox-arrow-next");
+
+  // Store current lightbox state
+  let currentImages = [];
+  let currentIndex = 0;
+
+  // Make all gallery images clickable
+  const allGalleryImages = document.querySelectorAll(".event-gallery img");
+
+  allGalleryImages.forEach((img, globalIndex) => {
+    img.style.cursor = "pointer";
+
+    img.addEventListener("click", () => {
+      // Get all images from THIS gallery
+      const gallery = img.closest(".event-gallery");
+      const galleryImages = gallery.querySelectorAll("img");
+
+      // Store images and find which one was clicked
+      currentImages = Array.from(galleryImages).map((img) => ({
+        src: img.src,
+        alt: img.alt,
+      }));
+
+      // Find index of clicked image within its gallery
+      currentIndex = Array.from(galleryImages).indexOf(img);
+
+      // Open lightbox
+      openLightbox();
+    });
+  });
+
+  // Open lightbox
+  function openLightbox() {
+    lightbox.classList.add("active");
+    document.body.style.overflow = "hidden";
+    showImage(currentIndex);
+    createDots();
+  }
+
+  // Close lightbox
+  function closeLightbox() {
+    lightbox.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  // Show specific image
+  function showImage(index) {
+    // Wrap around
+    if (index < 0) index = currentImages.length - 1;
+    if (index >= currentImages.length) index = 0;
+
+    currentIndex = index;
+
+    // Update image
+    lightboxImage.src = currentImages[index].src;
+    lightboxImage.alt = currentImages[index].alt;
+
+    // Update counter
+    lightboxCounter.textContent = `${index + 1} of ${currentImages.length}`;
+
+    // Update dots
+    updateLightboxDots(index);
+  }
+
+  // Create pagination dots
+  function createDots() {
+    lightboxDotsContainer.innerHTML = "";
+
+    currentImages.forEach((_, index) => {
+      const dot = document.createElement("button");
+      dot.className = "lightbox-dot";
+      dot.setAttribute("aria-label", `Go to image ${index + 1}`);
+
+      if (index === currentIndex) {
+        dot.classList.add("active");
+      }
+
+      dot.addEventListener("click", () => {
+        showImage(index);
+      });
+
+      lightboxDotsContainer.appendChild(dot);
+    });
+  }
+
+  // Update active dot
+  function updateLightboxDots(activeIndex) {
+    const dots = lightboxDotsContainer.querySelectorAll(".lightbox-dot");
+    dots.forEach((dot, index) => {
+      if (index === activeIndex) {
+        dot.classList.add("active");
+      } else {
+        dot.classList.remove("active");
+      }
+    });
+  }
+
+  // Close button
+  closeButton.addEventListener("click", closeLightbox);
+
+  // Click outside (on overlay)
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Previous button
+  prevButton.addEventListener("click", () => {
+    showImage(currentIndex - 1);
+  });
+
+  // Next button
+  nextButton.addEventListener("click", () => {
+    showImage(currentIndex + 1);
+  });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("active")) return;
+
+    if (e.key === "Escape") {
+      closeLightbox();
+    } else if (e.key === "ArrowLeft") {
+      showImage(currentIndex - 1);
+    } else if (e.key === "ArrowRight") {
+      showImage(currentIndex + 1);
+    }
+  });
+
+  console.log("✅ Lightbox initialized!");
 }
