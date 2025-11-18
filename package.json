@@ -1,0 +1,24 @@
+{
+  "name": "supper-clubs",
+  "version": "1.0.0",
+  "description": "A discovery platform for supper clubs in Hyderabad, India.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mindlesstunic/supper-clubs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mindlesstunic/supper-clubs/issues"
+  },
+  "homepage": "https://github.com/mindlesstunic/supper-clubs#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

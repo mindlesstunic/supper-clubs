@@ -3,21 +3,50 @@
 // ========================================
 
 // Wait for DOM to fully load
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("Page loaded! Starting to render data...");
+document.addEventListener("DOMContentLoaded", async function () {
+  console.log("Page loaded! Fetching data from backend...");
 
-  // === RENDER CLUB HEADER ===
-  renderClubHeader();
-  renderHostSection();
-  renderEvents();
-  renderContactSection();
-  // Initialize galleries AFTER events are rendered
-  initializeGalleries();
+  try {
+    // Fetch club data from backend API
+    const response = await fetch("http://localhost:3000/api/clubs/1");
 
-  // Initialize modal
-  initializeContactModal();
-  initializeInquiryForm();
-  initializeLightbox();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Override supperClubData with API response
+    const clubDataFromAPI = await response.json();
+
+    // Merge with existing data structure (temporary - until backend has all data)
+    supperClubData.club = clubDataFromAPI;
+
+    console.log("✅ Data fetched from backend:", clubDataFromAPI);
+
+    // Now render everything
+    renderClubHeader();
+    renderHostSection();
+    renderEvents();
+    renderContactSection();
+    initializeGalleries();
+    initializeContactModal();
+    initializeInquiryForm();
+    initializeLightbox();
+
+    console.log("🎉 All features initialized with backend data!");
+  } catch (error) {
+    console.error("❌ Error fetching data:", error);
+    console.log("⚠️ Falling back to local data from data.js");
+
+    // Fallback to local data if API fails
+    renderClubHeader();
+    renderHostSection();
+    renderEvents();
+    renderContactSection();
+    initializeGalleries();
+    initializeContactModal();
+    initializeInquiryForm();
+    initializeLightbox();
+  }
 });
 
 // ========================================
