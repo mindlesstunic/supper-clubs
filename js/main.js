@@ -8,19 +8,41 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     // Fetch club data from backend API
-    const response = await fetch("http://localhost:3000/api/clubs/1");
+    const clubResponse = await fetch("http://localhost:3000/api/clubs/1");
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (!clubResponse.ok) {
+      throw new Error(`HTTP error! status: ${clubResponse.status}`);
     }
 
-    // Override supperClubData with API response
-    const clubDataFromAPI = await response.json();
+    const clubDataFromAPI = await clubResponse.json();
 
-    // Merge with existing data structure (temporary - until backend has all data)
-    supperClubData.club = clubDataFromAPI;
+    // Fetch events data from backend API
+    const eventsResponse = await fetch(
+      "http://localhost:3000/api/clubs/1/events"
+    );
+    const eventsDataFromAPI = await eventsResponse.json();
 
-    console.log("✅ Data fetched from backend:", clubDataFromAPI);
+    // Update club data
+    supperClubData.club = {
+      name: clubDataFromAPI.name,
+      rating: clubDataFromAPI.rating,
+      reviewCount: clubDataFromAPI.reviewCount,
+      location: clubDataFromAPI.location,
+      contact: clubDataFromAPI.contact,
+    };
+
+    // Update host data from API
+    supperClubData.host = {
+      name: clubDataFromAPI.host.name,
+      bio: [clubDataFromAPI.host.bio],
+      photo: clubDataFromAPI.host.photo,
+    };
+
+    // Update events data from API
+    supperClubData.events = eventsDataFromAPI;
+
+    console.log("✅ Club data fetched from backend:", clubDataFromAPI);
+    console.log("✅ Events data fetched from backend:", eventsDataFromAPI);
 
     // Now render everything
     renderClubHeader();
