@@ -9,6 +9,11 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
     dangerouslyAllowSVG: true, // ← ADD THIS
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",

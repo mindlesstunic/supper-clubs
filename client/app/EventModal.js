@@ -39,21 +39,21 @@ export default function EventModal({ event, isOpen, onClose }) {
       onClick={onClose}
     >
       <div
-        className="relative bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl"
+        className="relative bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col md:flex-row shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button - Fixed properly */}
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 hover:bg-gray-100 active:scale-95 transition-all shadow-xl text-2xl font-light z-10 border-2 border-gray-100"
+          className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 hover:bg-gray-100 active:scale-95 transition-all shadow-xl text-2xl font-light z-20 border-2 border-gray-100"
         >
           ✕
         </button>
 
         {/* LEFT SIDE - Photos */}
-        <div className="md:w-1/2 h-64 md:h-full flex flex-col bg-gray-900">
+        <div className="md:w-1/2 h-80 md:h-full flex flex-col bg-gray-900 flex-shrink-0">
           {/* Main Photo */}
-          <div className="relative flex-1">
+          <div className="relative flex-1 min-h-0">
             {event.photos.length > 0 && (
               <Image
                 src={event.photos[currentPhotoIndex]}
@@ -73,12 +73,12 @@ export default function EventModal({ event, isOpen, onClose }) {
 
           {/* Thumbnail Gallery */}
           {event.photos.length > 1 && (
-            <div className="flex gap-2 p-3 bg-black/50 backdrop-blur-sm overflow-x-auto">
+            <div className="flex gap-2 p-3 bg-black/50 backdrop-blur-sm overflow-x-auto flex-shrink-0">
               {event.photos.map((photo, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentPhotoIndex(index)}
-                  className={`relative w-20 h-16 flex-shrink-0 rounded-lg overflow-hidden transition-all ${
+                  className={`relative w-16 h-12 md:w-20 md:h-16 flex-shrink-0 rounded-lg overflow-hidden transition-all ${
                     index === currentPhotoIndex
                       ? "ring-2 ring-white opacity-100"
                       : "opacity-50 hover:opacity-75"
@@ -98,9 +98,9 @@ export default function EventModal({ event, isOpen, onClose }) {
         </div>
 
         {/* RIGHT SIDE - Content with Sticky Bottom */}
-        <div className="md:w-1/2 flex flex-col h-full relative">
+        <div className="md:w-1/2 flex flex-col h-full md:h-auto flex-1 min-h-0">
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto pb-32">
+          <div className="flex-1 overflow-y-auto pb-28">
             <div className="p-6">
               {/* Title Section - Compact */}
               {event.name ? (
@@ -162,7 +162,7 @@ export default function EventModal({ event, isOpen, onClose }) {
                 </div>
               </div>
 
-              {/* Menu - Full List */}
+              {/* Menu - Compact */}
               <div className="mb-4 bg-gray-50 rounded-lg p-4 border border-gray-200">
                 <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
                   <span>🍽️</span>
@@ -237,20 +237,20 @@ export default function EventModal({ event, isOpen, onClose }) {
           </div>
 
           {/* Sticky Bottom - Price & Button */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 pt-4 border-t border-gray-200 bg-white shadow-2xl">
-            <div className="flex items-center justify-between mb-4">
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pt-3 md:pt-4 border-t border-gray-200 bg-white shadow-2xl flex-shrink-0">
+            <div className="flex items-center justify-between mb-3">
               <div>
                 <p className="text-xs text-gray-600 mb-0.5">Price per person</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-xl md:text-2xl font-bold text-gray-900">
                   ₹{event.pricePerPerson.toLocaleString()}
                 </p>
               </div>
-              <button className="bg-black text-white px-6 py-2.5 rounded-full font-semibold hover:bg-gray-800 active:scale-95 transition-all text-sm">
-                Reserve Seat
+              <button className="bg-black text-white px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold hover:bg-gray-800 active:scale-95 transition-all text-sm">
+                Reserve
               </button>
             </div>
             <p className="text-[10px] text-gray-500 text-center">
-              Free cancellation up to 48 hours before the event
+              Free cancellation up to 48 hours before
             </p>
           </div>
         </div>
