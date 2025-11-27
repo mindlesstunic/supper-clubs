@@ -39,7 +39,7 @@ export default function EventModal({ event, isOpen, onClose }) {
       onClick={onClose}
     >
       <div
-        className="relative bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col md:flex-row shadow-2xl"
+        className="relative bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -51,9 +51,9 @@ export default function EventModal({ event, isOpen, onClose }) {
         </button>
 
         {/* LEFT SIDE - Photos */}
-        <div className="md:w-1/2 h-80 md:h-full flex flex-col bg-gray-900 flex-shrink-0">
+        <div className="w-full md:w-1/2 h-80 md:h-full flex flex-col bg-gray-900">
           {/* Main Photo */}
-          <div className="relative flex-1 min-h-0">
+          <div className="relative h-60 md:flex-1 md:min-h-0">
             {event.photos.length > 0 && (
               <Image
                 src={event.photos[currentPhotoIndex]}
@@ -73,7 +73,7 @@ export default function EventModal({ event, isOpen, onClose }) {
 
           {/* Thumbnail Gallery */}
           {event.photos.length > 1 && (
-            <div className="flex gap-2 p-3 bg-black/50 backdrop-blur-sm overflow-x-auto flex-shrink-0">
+            <div className="flex gap-2 p-3 bg-black/50 backdrop-blur-sm overflow-x-auto h-20 md:h-24 flex-shrink-0">
               {event.photos.map((photo, index) => (
                 <button
                   key={index}
@@ -98,7 +98,7 @@ export default function EventModal({ event, isOpen, onClose }) {
         </div>
 
         {/* RIGHT SIDE - Content with Sticky Bottom */}
-        <div className="md:w-1/2 flex flex-col h-full md:h-auto flex-1 min-h-0">
+        <div className="w-full md:w-1/2 flex flex-col h-full relative">
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto pb-28">
             <div className="p-6">
@@ -245,8 +245,29 @@ export default function EventModal({ event, isOpen, onClose }) {
                   ₹{event.pricePerPerson.toLocaleString()}
                 </p>
               </div>
-              <button className="bg-black text-white px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold hover:bg-gray-800 active:scale-95 transition-all text-sm">
-                Reserve
+              <button
+                onClick={() => {
+                  // Format phone number for WhatsApp (remove spaces, dashes, +)
+                  const phoneNumber = event.club.phone.replace(/[\s\-+]/g, "");
+
+                  // Pre-filled message
+                  const message = encodeURIComponent(
+                    `Hi! from bookmysupper.com I'd like to reserve seats for:\n\n` +
+                      `Event: ${event.name}\n` +
+                      `Date: ${event.date} • ${event.time}\n` +
+                      `Location: ${event.club.location.area}\n\n` +
+                      `Please let me know about availability. Thank you!`
+                  );
+
+                  // Open WhatsApp
+                  window.open(
+                    `https://wa.me/${phoneNumber}?text=${message}`,
+                    "_blank"
+                  );
+                }}
+                className="bg-black text-white px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold hover:bg-gray-800 active:scale-95 transition-all text-sm"
+              >
+                Reserve via WhatsApp
               </button>
             </div>
             <p className="text-[10px] text-gray-500 text-center">
