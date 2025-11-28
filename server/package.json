@@ -1,10 +1,10 @@
 {
-  "name": "supper-clubs",
+  "name": "supper-clubs-backend",
   "version": "1.0.0",
-  "description": "A discovery platform for supper clubs in Hyderabad, India.",
-  "main": "index.js",
+  "description": "Backend API for Supper Clubs Hyderabad",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
