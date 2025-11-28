@@ -10,7 +10,9 @@ export default function Home() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const response = await fetch("http://localhost:3000/api/events");
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+        const response = await fetch(`${apiUrl}/api/events`);
         const data = await response.json();
         setEvents(data);
       } catch (error) {
