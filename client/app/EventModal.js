@@ -98,9 +98,9 @@ export default function EventModal({ event, isOpen, onClose }) {
         </div>
 
         {/* RIGHT SIDE - Content with Sticky Bottom */}
-        <div className="w-full md:w-1/2 flex flex-col h-full relative">
+        <div className="w-full md:w-1/2 flex flex-col h-auto md:h-full relative overflow-hidden">
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto pb-28">
+          <div className="flex-1 overflow-y-auto pb-32 md:pb-36">
             <div className="p-6">
               {/* Title Section - Compact */}
               {event.name ? (
@@ -237,8 +237,8 @@ export default function EventModal({ event, isOpen, onClose }) {
           </div>
 
           {/* Sticky Bottom - Price & Button */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 pt-3 md:pt-4 border-t border-gray-200 bg-white shadow-2xl flex-shrink-0">
-            <div className="flex items-center justify-between mb-3">
+          <div className="sticky md:absolute bottom-0 left-0 right-0 p-4 md:p-6 border-t border-gray-200 bg-white shadow-2xl z-10">
+            <div className="flex items-center justify-between mb-2 md:mb-3">
               <div>
                 <p className="text-xs text-gray-600 mb-0.5">Price per person</p>
                 <p className="text-xl md:text-2xl font-bold text-gray-900">
@@ -247,10 +247,7 @@ export default function EventModal({ event, isOpen, onClose }) {
               </div>
               <button
                 onClick={() => {
-                  // Format phone number for WhatsApp (remove spaces, dashes, +)
                   const phoneNumber = event.club.phone.replace(/[\s\-+]/g, "");
-
-                  // Pre-filled message
                   const message = encodeURIComponent(
                     `Hi! from bookmysupper.com I'd like to reserve seats for:\n\n` +
                       `Event: ${event.name}\n` +
@@ -258,16 +255,14 @@ export default function EventModal({ event, isOpen, onClose }) {
                       `Location: ${event.club.location.area}\n\n` +
                       `Please let me know about availability. Thank you!`
                   );
-
-                  // Open WhatsApp
                   window.open(
                     `https://wa.me/${phoneNumber}?text=${message}`,
                     "_blank"
                   );
                 }}
-                className="bg-black text-white px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold hover:bg-gray-800 active:scale-95 transition-all text-sm"
+                className="bg-black text-white px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold hover:bg-gray-800 active:scale-95 transition-all text-sm whitespace-nowrap"
               >
-                Reserve via WhatsApp
+                Reserve via whatsapp
               </button>
             </div>
             <p className="text-[10px] text-gray-500 text-center">
