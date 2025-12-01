@@ -2,13 +2,53 @@
 // SUPPER CLUBS BACKEND SERVER
 // ========================================
 
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./config/database");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET;
 
+const authenticateToken = (req, res, next) => {
+  //1. Get token from header
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; //Bearer Token
+
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  //2. Verify token
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // 3. Attach user info to request
+    req.user = decoded;
+    next(); // Continue to route handler
+  });
+};
+
+// Check if user has required role
+
+const requireRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).jsin({ error: "Not authenticated" });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    next();
+  };
+};
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -23,6 +63,70 @@ app.get("/api/health", (req, res) => {
     status: "ok",
     timestamp: new Date().toISOString(),
   });
+});
+
+// Get current user info (protected route)
+
+app.get(
+  "/api/auth/me",
+  authenticateToken,
+  requireRole("admin"),
+  async (req, res) => {
+    res.json({
+      message: "You are authenticated!",
+      user: req.user,
+    });
+  }
+);
+// ========================================
+// AUTH ROUTES
+// ========================================
+
+// Login endpoint
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    //1.Check if user exists
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    const user = result.rows[0];
+
+    //2. Verify password
+
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    //3. Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    //4. Send response
+
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 // Get all upcoming events (main endpoint)
