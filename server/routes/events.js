@@ -148,7 +148,7 @@ router.get("/:id", async (req, res) => {
 router.post(
   "/",
   authenticateToken,
-  requireRole("admin", "hosts"),
+  requireRole("admin", "host"),
   async (req, res) => {
     try {
       const {

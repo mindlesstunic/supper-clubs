@@ -11,6 +11,7 @@ const pool = require("./config/database");
 const authRoutes = require("./routes/auth");
 const eventRoutes = require("./routes/events");
 const adminRoutes = require("./routes/admin");
+const clubsRoutes = require("./routes/clubs");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -40,6 +41,10 @@ app.use("/api/events", eventRoutes);
 
 // ADMIN ROUTES
 app.use("/api/admin", adminRoutes);
+
+// CLUBS ROUTES
+app.use("/api/clubs", clubsRoutes);
+
 
 // START SERVER
 
