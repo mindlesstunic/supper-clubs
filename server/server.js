@@ -10,6 +10,7 @@ const pool = require("./config/database");
 //Import routes
 const authRoutes = require("./routes/auth");
 const eventRoutes = require("./routes/events");
+const adminRoutes = require("./routes/admin");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -36,6 +37,9 @@ app.use("/api/auth", authRoutes);
 // EVENT ROUTES
 
 app.use("/api/events", eventRoutes);
+
+// ADMIN ROUTES
+app.use("/api/admin", adminRoutes);
 
 // START SERVER
 

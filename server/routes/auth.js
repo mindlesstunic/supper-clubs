@@ -54,6 +54,49 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Register new user (public - for host applications)
+router.post("/register", async (req, res) => {
+  try {
+    const { email, password, name, bio, phone } = req.body;
+
+    // Check if email already exists
+    const existingUser = await pool.query(
+      "SELECT id FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ error: "Email already registered" });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user with pending status
+    const result = await pool.query(
+      `INSERT INTO users (email, password, role)
+         VALUES ($1, $2, 'pending')
+         RETURNING id, email, role, created_at`,
+      [email, hashedPassword]
+    );
+
+    // Save application details
+    await pool.query(
+      `INSERT INTO host_applications (user_id, name, bio, phone)
+     VALUES ($1, $2, $3, $4)`,
+      [result.rows[0].id, name, bio, phone]
+    );
+
+    res.status(201).json({
+      message: "Registration successful. Awaiting admin approval.",
+      user: result.rows[0],
+    });
+  } catch (error) {
+    console.error("Register error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // Get current user info (protected route)
 
 router.get("/me", authenticateToken, requireRole("admin"), async (req, res) => {
@@ -62,6 +105,5 @@ router.get("/me", authenticateToken, requireRole("admin"), async (req, res) => {
     user: req.user,
   });
 });
-
 
 module.exports = router;
