@@ -57,8 +57,10 @@ router.post("/login", async (req, res) => {
 // Register new user (public - for host applications)
 router.post("/register", async (req, res) => {
   try {
+    if (!req.body || !req.body.email || !req.body.password) {
+      return res.status(400).json({ error: "Email and password required" });
+    }
     const { email, password, name, bio, phone } = req.body;
-
     // Check if email already exists
     const existingUser = await pool.query(
       "SELECT id FROM users WHERE email = $1",
