@@ -64,11 +64,36 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">
-            Supper Clubs
-          </h1>
-          <p className="text-xl text-gray-600">Hyderabad</p>
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          {/* Nav Bar */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            {/* Title */}
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+                bookmysupper<span className="text-gray-400">.com</span>
+              </h1>
+              <p className="text-sm md:text-base text-gray-600">
+                Intimate dinners hosted by passionate home chefs in Hyderabad
+              </p>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex gap-3">
+              <a
+                href="/become-host"
+                className="px-4 py-2 text-sm text-gray-800 border border-gray-300 rounded-full hover:bg-gray-100 hover:border-gray-400 active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+                Become a Host
+              </a>
+
+              <a
+                href="/login"
+                className="px-4 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+                Host Login
+              </a>
+            </div>
+          </div>
         </div>
       </header>
 

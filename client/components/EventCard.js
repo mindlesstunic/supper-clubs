@@ -15,7 +15,7 @@ export default function EventCard({ event, index = 0 }) {
         onClick={() => setIsModalOpen(true)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="bg-white rounded-2xl overflow-hidden border border-gray-200 cursor-pointer transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl"
+        className="bg-white rounded-2xl overflow-hidden border border-gray-200 cursor-pointer transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl flex flex-col"
         style={{
           animationDelay: `${index * 100}ms`,
         }}
@@ -51,18 +51,20 @@ export default function EventCard({ event, index = 0 }) {
         </div>
 
         {/* Card Content */}
-        <div className="p-5">
-          {/* Host */}
-          <p className="text-sm text-gray-600 mb-3">
-            Hosted by {event.host.name}
-          </p>
-
-          {/* Description */}
-          {event.description && (
-            <p className="text-sm text-gray-700 leading-relaxed mb-4 line-clamp-2">
-              {event.description}
+        <div className="p-5 flex flex-col flex-1">
+          <div className="flex-1">
+            {/* Host */}
+            <p className="text-sm text-gray-600 mb-3">
+              Hosted by {event.host.name}
             </p>
-          )}
+
+            {/* Description */}
+            {event.description && (
+              <p className="text-sm text-gray-700 leading-relaxed mb-4 line-clamp-2">
+                {event.description}
+              </p>
+            )}
+          </div>
 
           {/* Tags */}
           {event.tags && event.tags.length > 0 && (

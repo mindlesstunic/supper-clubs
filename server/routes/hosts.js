@@ -34,7 +34,46 @@ router.get("/me", authenticateToken, requireRole("host"), async (req, res) => {
         `SELECT * FROM events WHERE club_id = $1 ORDER BY date DESC`,
         [club.id]
       );
-      events = eventsResult.rows;
+
+      // Get menu items and photos for all events
+      const eventIds = eventsResult.rows.map((e) => e.id);
+
+      if (eventIds.length > 0) {
+        const menuResult = await pool.query(
+          `SELECT event_id, dish_name FROM event_menu_items 
+       WHERE event_id = ANY($1) ORDER BY event_id, display_order`,
+          [eventIds]
+        );
+
+        const photosResult = await pool.query(
+          `SELECT event_id, photo_url FROM event_photos 
+       WHERE event_id = ANY($1) ORDER BY event_id, display_order`,
+          [eventIds]
+        );
+
+        // Group by event_id
+        const menuByEvent = {};
+        menuResult.rows.forEach((item) => {
+          if (!menuByEvent[item.event_id]) menuByEvent[item.event_id] = [];
+          menuByEvent[item.event_id].push(item.dish_name);
+        });
+
+        const photosByEvent = {};
+        photosResult.rows.forEach((photo) => {
+          if (!photosByEvent[photo.event_id])
+            photosByEvent[photo.event_id] = [];
+          photosByEvent[photo.event_id].push(photo.photo_url);
+        });
+
+        // Attach to events
+        events = eventsResult.rows.map((event) => ({
+          ...event,
+          menu_items: menuByEvent[event.id] || [],
+          photos: photosByEvent[event.id] || [],
+        }));
+      } else {
+        events = eventsResult.rows;
+      }
     }
 
     res.json({
@@ -42,7 +81,6 @@ router.get("/me", authenticateToken, requireRole("host"), async (req, res) => {
       club,
       events,
     });
-
   } catch (error) {
     console.error("Get host data error:", error);
     res.status(500).json({ error: "Server error" });
