@@ -7,6 +7,7 @@ import { getUser, clearAuth } from "../lib/auth";
 export default function Home() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -20,14 +21,22 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchEvents() {
+      setError(false);
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-        const response = await fetch(`${apiUrl}/api/events`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiUrl}/api/events`, {
+          timeout: 30000, // 30 second timeout
+        });
+
+        if (!response.ok) {
+          throw new Error("API error");
+        }
+
         const data = await response.json();
         setEvents(data);
       } catch (error) {
         console.error("Error fetching events:", error);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -129,7 +138,22 @@ export default function Home() {
 
       {/* Events by Month */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        {events.length === 0 ? (
+        {error ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg mb-4">
+              Couldn't load events. Server might be waking up.
+            </p>
+            <button
+              onClick={() => {
+                setLoading(true);
+                fetchEvents();
+              }}
+              className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : events.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">No upcoming events</p>
           </div>

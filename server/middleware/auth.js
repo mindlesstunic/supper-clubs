@@ -27,7 +27,7 @@ const authenticateToken = (req, res, next) => {
 const requireRole = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).jsin({ error: "Not authenticated" });
+      return res.status(401).json({ error: "Not authenticated" });
     }
 
     if (!allowedRoles.includes(req.user.role)) {

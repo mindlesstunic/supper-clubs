@@ -174,10 +174,10 @@ router.post(
         const clubCheck = await pool.query(
           `SELECT clubs.id FROM clubs
             JOIN hosts ON clubs.host_id = hosts.id
-            WHERE clubs.id = $1 aND hosts.user_id = $2`,
+            WHERE clubs.id = $1 AND hosts.user_id = $2`,
           [club_id, req.user.userId]
         );
-        if (clubCheck.rows.lenght === 0) {
+        if (clubCheck.rows.length === 0) {
           return res.status(403).json({ error: "You don't own this club" });
         }
       }
