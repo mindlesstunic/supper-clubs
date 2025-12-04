@@ -344,16 +344,24 @@ export default function HostDashboard() {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-8 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 py-8 flex justify-between items-start">
           <h1 className="text-3xl font-bold text-gray-900">Host Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">{user?.email}</span>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-black text-white text-sm rounded-full hover:bg-gray-800 active:scale-95 cursor-pointer transition-all"
-            >
-              Logout
-            </button>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-3">
+              <a
+                href="/"
+                className="px-4 py-2 text-sm text-gray-800 border border-gray-300 rounded-full hover:bg-gray-100 hover:border-gray-400 active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+                Home
+              </a>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-black text-white text-sm rounded-full hover:bg-gray-800 active:scale-95 cursor-pointer transition-all"
+              >
+                Logout
+              </button>
+            </div>
+            <p className="text-sm text-gray-600">{user?.email}</p>
           </div>
         </div>
       </header>
@@ -428,6 +436,22 @@ export default function HostDashboard() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
                     required
                   />
+                </div>
+
+                <div className="mb-6">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      required
+                      className="mt-1 w-4 h-4 accent-black"
+                    />
+                    <span className="text-sm text-gray-600">
+                      I confirm that I am responsible for my supper club
+                      operations. bookmysupper.com is a discovery platform only
+                      and is not liable for any issues arising from events I
+                      host.
+                    </span>
+                  </label>
                 </div>
                 <div className="flex gap-3">
                   <button
@@ -651,24 +675,12 @@ export default function HostDashboard() {
                       onChange={(e) =>
                         setEventForm({ ...eventForm, tags: e.target.value })
                       }
-                      placeholder="vegetarian, spicy, authentic (comma-separated)"
+                      placeholder="vegetarian, spicy, authentic"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
                     />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2 text-gray-900">
-                      What's Included
-                    </label>
-                    <input
-                      type="text"
-                      value={eventForm.includes}
-                      onChange={(e) =>
-                        setEventForm({ ...eventForm, includes: e.target.value })
-                      }
-                      placeholder="Welcome drink, Dessert, Live music (comma-separated)"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
-                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Comma-separated
+                    </p>
                   </div>
 
                   <div className="mb-4">
@@ -684,9 +696,30 @@ export default function HostDashboard() {
                           menu_items: e.target.value,
                         })
                       }
-                      placeholder="Bruschetta, Pasta Carbonara, Tiramisu (comma-separated)"
+                      placeholder="Bruschetta, Pasta Carbonara, Tiramisu"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Comma-separated
+                    </p>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2 text-gray-900">
+                      Extras (What's Included)
+                    </label>
+                    <input
+                      type="text"
+                      value={eventForm.includes}
+                      onChange={(e) =>
+                        setEventForm({ ...eventForm, includes: e.target.value })
+                      }
+                      placeholder="Welcome drink, Dessert, Live music"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Comma-separated
+                    </p>
                   </div>
 
                   <div className="mb-6">
@@ -706,6 +739,23 @@ export default function HostDashboard() {
                       Paste Unsplash image URLs, separated by commas
                     </p>
                   </div>
+
+                  {!editingEvent && (
+                    <div className="mb-6">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          required
+                          className="mt-1 w-4 h-4 accent-black"
+                        />
+                        <span className="text-sm text-gray-600">
+                          I confirm that all event details are accurate and I am
+                          responsible for delivering the experience as
+                          described.
+                        </span>
+                      </label>
+                    </div>
+                  )}
 
                   <div className="flex gap-3">
                     <button

@@ -2,10 +2,21 @@
 
 import { useState, useEffect } from "react";
 import EventCard from "../components/EventCard";
+import { getUser, clearAuth } from "../lib/auth";
 
 export default function Home() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setUser(getUser());
+  }, []);
+
+  const handleLogout = () => {
+    clearAuth();
+    setUser(null);
+  };
 
   useEffect(() => {
     async function fetchEvents() {
@@ -79,19 +90,38 @@ export default function Home() {
 
             {/* Buttons */}
             <div className="flex gap-3">
-              <a
-                href="/become-host"
-                className="px-4 py-2 text-sm text-gray-800 border border-gray-300 rounded-full hover:bg-gray-100 hover:border-gray-400 active:scale-95 transition-all duration-200 cursor-pointer"
-              >
-                Become a Host
-              </a>
+              {user ? (
+                <>
+                  <a
+                    href={user.role === "admin" ? "/admin" : "/dashboard"}
+                    className="px-4 py-2 text-sm text-gray-800 border border-gray-300 rounded-full hover:bg-gray-100 hover:border-gray-400 active:scale-95 transition-all duration-200 cursor-pointer"
+                  >
+                    Host Dashboard
+                  </a>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <a
+                    href="/become-host"
+                    className="px-4 py-2 text-sm text-gray-800 border border-gray-300 rounded-full hover:bg-gray-100 hover:border-gray-400 active:scale-95 transition-all duration-200 cursor-pointer"
+                  >
+                    Become a Host
+                  </a>
 
-              <a
-                href="/login"
-                className="px-4 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer"
-              >
-                Host Login
-              </a>
+                  <a
+                    href="/login"
+                    className="px-4 py-2 text-sm bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer"
+                  >
+                    Host Login
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>

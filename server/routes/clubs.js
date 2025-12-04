@@ -15,7 +15,7 @@ router.post(
 
       // Get host_id for this user
       const hostResult = await pool.query(
-        `SELECT id FROM hosts WHERE user_id = $1`,
+        `SELECT id, phone FROM hosts WHERE user_id = $1`,
         [req.user.userId]
       );
 
@@ -24,6 +24,8 @@ router.post(
       }
 
       const hostId = hostResult.rows[0].id;
+      // Get host's phone
+      const hostPhone = hostResult.rows[0].phone || null;
 
       // Check if host already has a club
       const existingClub = await pool.query(
@@ -35,12 +37,12 @@ router.post(
         return res.status(400).json({ error: "You already have a club" });
       }
 
-      // Create club
+      // Create club with phone
       const result = await pool.query(
-        `INSERT INTO clubs (host_id, name, location_area, location_city)
-       VALUES ($1, $2, $3, $4)
-       RETURNING *`,
-        [hostId, name, location_area, location_city]
+        `INSERT INTO clubs (host_id, name, location_area, location_city, phone)
+   VALUES ($1, $2, $3, $4, $5)
+   RETURNING *`,
+        [hostId, name, location_area, location_city, hostPhone]
       );
 
       res.status(201).json({
