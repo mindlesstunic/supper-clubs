@@ -89,4 +89,36 @@ router.post("/applications/:id/approve", async (req, res) => {
   }
 });
 
+// Reject host application
+router.post("/applications/:id/reject", async (req, res) => {
+  try {
+    const applicationId = req.params.id;
+
+    // Get application details
+    const appResult = await pool.query(
+      `SELECT * FROM host_applications WHERE id = $1`,
+      [applicationId]
+    );
+
+    if (appResult.rows.length === 0) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    const application = appResult.rows[0];
+
+    // Delete the application
+    await pool.query(`DELETE FROM host_applications WHERE id = $1`, [
+      applicationId,
+    ]);
+
+    // Delete the user account
+    await pool.query(`DELETE FROM users WHERE id = $1`, [application.user_id]);
+
+    res.json({ message: "Application rejected and user removed" });
+  } catch (error) {
+    console.error("Reject error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 module.exports = router;
