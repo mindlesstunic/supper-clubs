@@ -14,6 +14,7 @@
 // - onCancel: Cancel button handler
 
 import { EMPTY_EVENT_FORM } from "../../lib/formatters";
+import ImageUpload from "./ImageUpload";
 
 export default function EventForm({
   eventForm,
@@ -211,23 +212,25 @@ export default function EventForm({
           <p className="text-xs text-gray-500 mt-1">Comma-separated</p>
         </div>
 
-        {/* Photo URLs */}
+
+        {/* Photos */}
         <div className="mb-6">
           <label className="block text-sm font-medium mb-2 text-gray-900">
-            Photo URLs
+            Event Photos
           </label>
-          <input
-            type="text"
-            value={eventForm.photos}
-            onChange={(e) =>
-              setEventForm({ ...eventForm, photos: e.target.value })
+          <ImageUpload
+            images={
+              eventForm.photos
+                ? eventForm.photos
+                    .split(",")
+                    .map((p) => p.trim())
+                    .filter((p) => p)
+                : []
             }
-            placeholder="https://images.unsplash.com/..."
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-gray-900"
+            onImagesChange={(urls) =>
+              setEventForm({ ...eventForm, photos: urls.join(", ") })
+            }
           />
-          <p className="text-xs text-gray-500 mt-1">
-            Paste Unsplash image URLs, separated by commas
-          </p>
         </div>
 
         {/* Terms Checkbox - only for new events */}

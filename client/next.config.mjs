@@ -14,6 +14,10 @@ const nextConfig = {
         hostname: "images.unsplash.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
     dangerouslyAllowSVG: true, // ← ADD THIS
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
